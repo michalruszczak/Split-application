@@ -14,7 +14,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
-    };
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

@@ -9,9 +9,6 @@
 <body>
 <a href="/event/list">
     <button>Wydarzenia</button>
-<a href="/payment">
-    <button>Płatności</button>
-</a>
     <a href="/logout">
         <button>Wyloguj sie</button>
     </a>

@@ -3,9 +3,7 @@ package pl.ruszczak.paypal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.ruszczak.repository.PaymentRepository;
@@ -29,7 +27,7 @@ public class PaypalController {
         this.paymentRepository = p;
     }
 
-	@GetMapping("/pay/{id}")
+	@GetMapping(value = "/pay/{id}")
 	public String payment(@PathVariable("id") Long id) {
 		pl.ruszczak.model.Payment p = paymentRepository.getById(id);
 	
@@ -50,23 +48,23 @@ public class PaypalController {
 		return "redirect:/";
 	}
 
-	 @GetMapping(value = CANCEL_URL)
-	    public String cancelPay() {
-	        return "cancel";
-	    }
+	 @GetMapping(CANCEL_URL)
+	public String cancelPay() {
+		return "cancel";
+	}
 
-	    @GetMapping(value = SUCCESS_URL)
-	    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
-	        try {
-	            Payment payment = service.executePayment(paymentId, payerId);
-	            System.out.println(payment.toJSON());
-	            if (payment.getState().equals("approved")) {
-	                return "success";
-	            }
-	        } catch (PayPalRESTException e) {
-	         System.out.println(e.getMessage());
-	        }
-	        return "redirect:/";
-	    }
+	@GetMapping(value = SUCCESS_URL)
+	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+		try {
+			Payment payment = service.executePayment(paymentId, payerId);
+			System.out.println(payment.toJSON());
+			if (payment.getState().equals("approved")) {
+				return "paymentSuccess";
+			}
+		} catch (PayPalRESTException e) {
+			System.out.println(e.getMessage());
+		}
+		return "redirect:/";
+	}
 
 }
